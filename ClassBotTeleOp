@@ -1,0 +1,64 @@
+package org.firstinspires.ftc.teamcode;
+
+
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Servo;
+
+@Disabled
+@TeleOp(name="ClassBot")
+public class ClassBotTeleOp extends OpMode {
+
+    DcMotor leftMotor;
+    DcMotor rightMotor;
+    DcMotor armMotor;
+    Servo armServo;
+
+    Integer robotNumber;
+
+    double leftMotorPower;
+    double rightMotorPower;
+    double armMotorPower;
+
+
+    @Override
+    public void init() {
+
+        leftMotor = hardwareMap.dcMotor.get("Left_Drive");
+        rightMotor = hardwareMap.dcMotor.get("Right_Drive");
+        armMotor = hardwareMap.dcMotor.get("Arm_Drive");
+
+        armServo = hardwareMap.servo.get("Arm_Servo");
+
+        leftMotor.setDirection(DcMotor.Direction.REVERSE);
+    }
+
+    @Override
+    public void loop() {
+        leftMotorPower = gamepad1.left_stick_y;
+        rightMotorPower = gamepad1.right_stick_y;
+
+        leftMotor.setPower(leftMotorPower);
+        rightMotor.setPower(rightMotorPower);
+        armMotor.setPower(armMotorPower);
+
+        if (gamepad1.dpad_down) {
+            armMotorPower = -.5;
+        }
+        else if (gamepad1.dpad_up) {
+            armMotorPower = .25;
+        }
+        else {
+            armMotorPower = 0;
+        }
+
+
+        if (gamepad1.right_bumper) {
+            armServo.setPosition(.5);
+        } else {
+            armServo.setPosition(0);
+        }
+    }
+}
