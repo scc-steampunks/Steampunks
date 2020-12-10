@@ -1,0 +1,60 @@
+package org.firstinspires.ftc.teamcode;
+
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
+
+@TeleOp(name = "Huggo 2020")
+@Disabled
+public class Huggo2020 extends OpMode {
+
+    DcMotor frontLeftMotor;
+    DcMotor backLeftMotor;
+    DcMotor frontRightMotor;
+    DcMotor backRightMotor;
+    DcMotor armMotor;
+
+    @Override
+    public void init() {
+        frontLeftMotor = hardwareMap.dcMotor.get("Front_Left_Drive");
+        backLeftMotor = hardwareMap.dcMotor.get("Back_Left_Drive");
+        frontRightMotor = hardwareMap.dcMotor.get("Front_Right_Drive");
+        backRightMotor = hardwareMap.dcMotor.get("Back_Right_Drive");
+        armMotor = hardwareMap.dcMotor.get("Arm_Drive");
+
+        frontLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        backLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+    }
+
+    @Override
+    public void loop() {
+        /**Drive*/
+        if (gamepad1.dpad_left) {
+            frontLeftMotor.setPower(-.5);
+            backLeftMotor.setPower(.5);
+            frontRightMotor.setPower(.5);
+            backRightMotor.setPower(-.5);
+        } else if (gamepad1.dpad_right) {
+            frontLeftMotor.setPower(.5);
+            backLeftMotor.setPower(-.5);
+            frontRightMotor.setPower(-.5);
+            backRightMotor.setPower(.5);
+        } else {
+            frontLeftMotor.setPower(0);
+            backLeftMotor.setPower(0);
+            frontRightMotor.setPower(0);
+            backRightMotor.setPower(0);
+        }
+        /**Arm*/
+        if (gamepad1.dpad_down)
+            armMotor.setPower(1);
+        else if (gamepad1.dpad_up)
+            armMotor.setPower(-1);
+        frontLeftMotor.setPower(gamepad1.left_stick_y);
+        backLeftMotor.setPower(gamepad1.left_stick_y);
+        frontRightMotor.setPower(gamepad1.right_stick_y);
+        backRightMotor.setPower(gamepad1.right_stick_y);
+    }
+}
