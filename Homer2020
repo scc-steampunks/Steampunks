@@ -1,0 +1,72 @@
+package org.firstinspires.ftc.teamcode;
+
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.CRServo;
+import com.qualcomm.robotcore.hardware.DcMotor;
+
+@TeleOp (name = "Homer2020")
+@Disabled
+public class Homer2020 extends OpMode {
+
+    //declaringDevices
+    DcMotor frontLeftDrive;
+    DcMotor frontRightDrive;
+    DcMotor leftFlyWheel;
+    DcMotor rightFlyWheel;
+    CRServo rightConveyorDrive;
+    CRServo leftConveyorDrive;
+
+    double frontLeftDrivePower;
+    double frontRightDrivePower;
+    double flyWheels;
+    double conveyor;
+
+    @Override
+    public void init() {
+
+        //declaringDeviceNames
+        frontLeftDrive = hardwareMap.dcMotor.get("Front_Left_Drive");
+        frontRightDrive = hardwareMap.dcMotor.get("Front_Right_Drive");
+        leftFlyWheel = hardwareMap.dcMotor.get("Left_Fly_Wheel");
+        rightFlyWheel = hardwareMap.dcMotor.get("Right_FLy_Wheel");
+        rightConveyorDrive = hardwareMap.crservo.get("Right_Conveyor_Drive");
+        leftConveyorDrive = hardwareMap.crservo.get("Left_Conveyor_Drive");
+
+        //reversingMotors
+        leftConveyorDrive.setDirection(CRServo.Direction.REVERSE);
+        frontLeftDrive.setDirection(DcMotor.Direction.REVERSE);
+        leftFlyWheel.setDirection(DcMotor.Direction.REVERSE);
+    }
+
+     @Override
+     public void loop() {
+
+        //frontDrive
+        frontLeftDrive.setPower(frontLeftDrivePower);
+        frontRightDrive.setPower(frontRightDrivePower);
+
+        frontRightDrivePower = gamepad1.left_stick_y;
+        frontRightDrivePower = gamepad1.right_stick_y;
+
+        //flyWheels
+        leftFlyWheel.setPower(flyWheels);
+        rightFlyWheel.setPower(flyWheels);
+
+        flyWheels = 1;
+
+        //conveyor
+        leftConveyorDrive.setPower(conveyor);
+        rightConveyorDrive.setPower(conveyor);
+        if (gamepad2.dpad_up) {
+            conveyor = 1;
+        }
+        else if (gamepad2.dpad_down) {
+            conveyor = -1;
+        }
+        else if (gamepad2.dpad_left) {
+            conveyor = 0;
+        }
+     }
+}
